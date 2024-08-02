@@ -25,7 +25,6 @@ public class PizzariaApplication {
 			System.out.println(p.getMensagemErro());
 		}
 
-
 	}
 
 }
