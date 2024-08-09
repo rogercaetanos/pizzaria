@@ -1,5 +1,7 @@
 package com.itb.mif3an.pizzaria.exceptions;
 
+
+
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
@@ -7,7 +9,7 @@ import java.time.LocalDateTime;
 public class ErrorMessage {
 
     private LocalDateTime timestamp;
-    private String [] messages;
+    private String[] messages;
     private HttpStatus title;
     private int status;
 
