@@ -1,15 +1,27 @@
 package com.itb.mif3an.pizzaria.model;
 
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "itens_pedido")
 public class ItemPedido {
 
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
+   @Column(nullable = false)
    private int quantidadeItem;
+   @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
    private double precoUnitario;
    private boolean codStatus;
 
     // Atributos de apoio
 
+    @Transient
     private String mensagemErro = "";
+    @Transient
     private boolean isValid = true;
 
     public Long getId() {
@@ -46,6 +58,19 @@ public class ItemPedido {
 
     public String getMensagemErro() {
         return mensagemErro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemPedido that = (ItemPedido) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public boolean validarItemPedido() {

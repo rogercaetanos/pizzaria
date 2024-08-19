@@ -1,15 +1,26 @@
 package com.itb.mif3an.pizzaria.model;
 
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "telefones")
 public class Telefone {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, length = 15)
     private String numero;
     private boolean codStatus;
 
     // Atributos de apoio
 
+    @Transient
     private String mensagemErro = "";
+    @Transient
     private boolean isValid = true;
 
     public Long getId() {
@@ -38,6 +49,19 @@ public class Telefone {
 
     public String getMensagemErro() {
         return mensagemErro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Telefone telefone = (Telefone) o;
+        return Objects.equals(id, telefone.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public boolean validarTelefone() {

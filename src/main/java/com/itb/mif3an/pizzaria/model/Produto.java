@@ -1,5 +1,10 @@
 package com.itb.mif3an.pizzaria.model;
 
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "produtos")
 public class Produto {
 
     // Encapsulamento : proteger meus atributos do acesso desordenado, pode estar ligado
@@ -20,17 +25,34 @@ public class Produto {
     //   SET -> atribuir a informação
     //   GET -> recuperar a informação
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 100)
     private String nome;
+    @Column(nullable = true, length = 45)
     private String tipo;
+
+    @Column(nullable = true, length = 250)
     private String descricao;
+    @Column(nullable = true, columnDefinition = "DECIMAL(5,2)")
     private double precoCompra;
+    @Column(nullable = true, columnDefinition = "DECIMAL(5,2)")
     private double precoVenda;
+    @Column(nullable = true)
     private int quantidadeEstoque;
     private boolean codStatus;
 
+
+    // @ManyToOne :  Muitos para UM
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
+    private Categoria categoria;
+
     // Atributos de apoio
+    @Transient
     private String mensagemErro = "";
+    @Transient
     private boolean isValid = true;
 
     // void: "mudo", ou seja, o método não tem retorno
@@ -101,6 +123,19 @@ public class Produto {
 
     public String getMensagemErro() {
         return mensagemErro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public boolean validarProduto() {

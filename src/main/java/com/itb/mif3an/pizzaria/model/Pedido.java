@@ -1,20 +1,32 @@
 package com.itb.mif3an.pizzaria.model;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
+
+@Entity
+@Table(name = "pedidos")
 public class Pedido {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 10)
     private String numeroPedido;
     private LocalDateTime dataHoraCompra;
     private LocalDateTime dataHoraEntrega;
+    @Column(nullable = false, columnDefinition = "DECIMAL(5,2)")
     private double valorTotal;
+    @Column(nullable = false, length = 20)
     private String status;
     private boolean codStatus;
 
     // Atributos de apoio
 
+    @Transient
     private String mensagemErro = "";
+    @Transient
     private boolean isValid = true;
 
     public Long getId() {
@@ -75,6 +87,19 @@ public class Pedido {
 
     public String getMensagemErro() {
         return mensagemErro;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(id, pedido.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     public boolean validarPedido() {
