@@ -16,6 +16,11 @@ public class Telefone {
     private String numero;
     private boolean codStatus;
 
+
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id", nullable = false)
+    private Usuario usuario;
+
     // Atributos de apoio
 
     @Transient
@@ -45,6 +50,14 @@ public class Telefone {
 
     public void setCodStatus(boolean codStatus) {
         this.codStatus = codStatus;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public String getMensagemErro() {

@@ -1,7 +1,11 @@
 package com.itb.mif3an.pizzaria.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -21,6 +25,11 @@ public class Pedido {
     @Column(nullable = false, length = 20)
     private String status;
     private boolean codStatus;
+
+
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
 
     // Atributos de apoio
 

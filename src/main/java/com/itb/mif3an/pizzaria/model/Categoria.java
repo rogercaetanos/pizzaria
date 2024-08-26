@@ -69,6 +69,14 @@ public class Categoria {
         this.codStatus = codStatus;
     }
 
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
     public String getMensagemErro() {
         return mensagemErro;
     }

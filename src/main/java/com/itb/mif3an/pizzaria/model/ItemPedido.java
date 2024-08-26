@@ -17,6 +17,14 @@ public class ItemPedido {
    private double precoUnitario;
    private boolean codStatus;
 
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = false)
+    private Pedido pedido;
+
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "produto_id", referencedColumnName = "id", nullable = false)
+    private Produto produto;
+
     // Atributos de apoio
 
     @Transient
@@ -54,6 +62,22 @@ public class ItemPedido {
 
     public void setCodStatus(boolean codStatus) {
         this.codStatus = codStatus;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
     public String getMensagemErro() {

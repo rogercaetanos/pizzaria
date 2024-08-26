@@ -1,6 +1,10 @@
 package com.itb.mif3an.pizzaria.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -48,6 +52,11 @@ public class Produto {
     @ManyToOne (cascade = CascadeType.ALL)
     @JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
     private Categoria categoria;
+
+
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<ItemPedido> itemPedidos = new ArrayList<ItemPedido>();
 
     // Atributos de apoio
     @Transient
@@ -119,6 +128,22 @@ public class Produto {
 
     public void setCodStatus(boolean codStatus) {
         this.codStatus = codStatus;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public List<ItemPedido> getItemPedidos() {
+        return itemPedidos;
+    }
+
+    public void setItemPedidos(List<ItemPedido> itemPedidos) {
+        this.itemPedidos = itemPedidos;
     }
 
     public String getMensagemErro() {
