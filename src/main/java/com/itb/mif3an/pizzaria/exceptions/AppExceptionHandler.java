@@ -16,12 +16,12 @@ import java.time.ZoneId;
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     ZoneId zoneBrasil = ZoneId.of("America/Sao_Paulo");
-    LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
+
     String [] arrayMessage;
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object>globalException(Exception ex, WebRequest request) {
-
+        LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
         String errorMessageDescription = ex.getLocalizedMessage();
         System.out.println(errorMessageDescription);
         errorMessageDescription = "Ocorreu um erro interno no servidor";
@@ -37,6 +37,8 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {BadRequest.class})
     public ResponseEntity<Object> badRequestException(BadRequest ex, WebRequest request){
+
+        LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
         String errorMessageDescription = ex.getLocalizedMessage();
         System.out.println(errorMessageDescription);
         if(errorMessageDescription == null) errorMessageDescription = ex.toString();
@@ -45,6 +47,21 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(value = {NotFound.class})
+    public ResponseEntity<Object> notFoundException(BadRequest ex, WebRequest request){
+
+        LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
+        String errorMessageDescription = ex.getLocalizedMessage();
+        System.out.println(errorMessageDescription);
+        if(errorMessageDescription == null) errorMessageDescription = ex.toString();
+        arrayMessage = errorMessageDescription.split(":");
+        ErrorMessage errorMessage = new ErrorMessage(localDateTimeBrasil, arrayMessage, HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.NOT_FOUND);
+    }
+
+
 
 
 }
