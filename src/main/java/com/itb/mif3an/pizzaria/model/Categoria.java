@@ -33,8 +33,10 @@ public class Categoria {
     // @Transient -> representa um atributo que NÃO CORRESPONDE A UMA COLUNA DA TABELA
 
     @Transient
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient
+    @JsonIgnore
     private boolean isValid = true;
 
     public Long getId() {

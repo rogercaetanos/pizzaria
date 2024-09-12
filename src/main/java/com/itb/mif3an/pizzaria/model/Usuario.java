@@ -43,8 +43,10 @@ public class Usuario {
     // Atributos de apoio
 
     @Transient
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient
+    @JsonIgnore
     private boolean isValid = true;
 
     public Long getId() {

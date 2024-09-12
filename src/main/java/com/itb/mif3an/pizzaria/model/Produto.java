@@ -49,7 +49,8 @@ public class Produto {
 
 
     // @ManyToOne :  Muitos para UM
-    @ManyToOne (cascade = CascadeType.ALL)
+   // @ManyToOne (cascade = CascadeType.MERGE,fetch = FetchType.LAZY)
+    @ManyToOne (cascade = CascadeType.MERGE)
     @JoinColumn(name = "categoria_id", referencedColumnName = "id", nullable = false)
     private Categoria categoria;
 
@@ -60,8 +61,10 @@ public class Produto {
 
     // Atributos de apoio
     @Transient
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient
+    @JsonIgnore
     private boolean isValid = true;
 
     // void: "mudo", ou seja, o método não tem retorno

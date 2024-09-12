@@ -27,6 +27,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     @Override
     @Transactional
     public Produto save(Produto produto) {
+        produto.setCodStatus(true);
         if(!produto.validarProduto()){
             throw new BadRequest(produto.getMensagemErro());
         }
@@ -34,6 +35,7 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
+    @Transactional
     public boolean delete(Long id) {
         if(!produtoRepository.existsById(id)){
             throw new NotFound("Produto não encontrado com o id " + id);
@@ -41,4 +43,35 @@ public class ProdutoServiceImpl implements ProdutoService {
         produtoRepository.deleteById(id);
         return true;
     }
+
+    @Override
+    @Transactional
+    public Produto update(Produto produto, Long id) {
+        try {
+            if(!produto.validarProduto()){
+                throw new BadRequest(produto.getMensagemErro());
+            }
+            Produto produtoDb = produtoRepository.findById(id).get();
+            produtoDb.setNome(produto.getNome());
+            produtoDb.setDescricao(produto.getDescricao());
+            produtoDb.setPrecoVenda(produto.getPrecoVenda());
+            produtoDb.setTipo(produto.getTipo());
+            produtoDb.setPrecoCompra(produto.getPrecoCompra());
+            produtoDb.setQuantidadeEstoque(produto.getQuantidadeEstoque());
+            return produtoRepository.save(produtoDb); // save: Atualiza quando o objeto já existe no banco
+        }catch (Exception ex){
+            throw new NotFound("Produto não encontrado com o id " + id);
+        }
+
+    }
+
+    @Override
+    public Produto findById(Long id) {
+        try {
+            return produtoRepository.findById(id).get();
+        } catch (Exception ex){
+            throw new NotFound("Produto não encontrado com o id " + id);
+        }
+    }
+
 }

@@ -10,5 +10,7 @@ public interface ProdutoService {
     public List<Produto> findAll();
     public Produto save(Produto produto);
     public boolean delete(Long id);
+    public Produto update(Produto produto, Long id);
+    public Produto findById(Long id);
 
 }

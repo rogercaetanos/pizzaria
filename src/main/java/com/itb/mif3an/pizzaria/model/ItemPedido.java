@@ -1,6 +1,8 @@
 package com.itb.mif3an.pizzaria.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -28,8 +30,10 @@ public class ItemPedido {
     // Atributos de apoio
 
     @Transient
+    @JsonIgnore
     private String mensagemErro = "";
     @Transient
+    @JsonIgnore
     private boolean isValid = true;
 
     public Long getId() {
