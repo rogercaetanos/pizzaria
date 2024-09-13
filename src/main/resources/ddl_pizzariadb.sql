@@ -74,6 +74,23 @@ CONSTRAINT fk_itens_pedido_pedido_id FOREIGN KEY (pedido_id) REFERENCES pedidos(
 CONSTRAINT fk_itens_pedido_produto_id FOREIGN KEY (produto_id) REFERENCES produtos(id)
 )
 
+-- Recursos necessários para o sistema de login
+
+CREATE TABLE papeis(
+id BIGINT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+nome_papel VARCHAR(45) NOT NULL,
+descricao_papel VARCHAR(250) NULL,
+cod_status_papel BIT NULL
+)
+
+CREATE TABLE usuarios_papeis(
+usuario_id BIGINT NOT NULL,
+papel_id BIGINT NOT NULL,
+CONSTRAINT fk_usuarios_papeis_usuario_id FOREIGN KEY(usuario_id) REFERENCES usuarios(id),
+CONSTRAINT fk_usuarios_papeis_papel_id FOREIGN KEY(papel_id) REFERENCES papeis(id)
+)
+
+
 
 
 

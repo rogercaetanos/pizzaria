@@ -19,6 +19,8 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
     String [] arrayMessage;
 
+
+    // Error: 500
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<Object>globalException(Exception ex, WebRequest request) {
         LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
@@ -34,6 +36,7 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // Error: 400
 
     @ExceptionHandler(value = {BadRequest.class})
     public ResponseEntity<Object> badRequestException(BadRequest ex, WebRequest request){
@@ -48,8 +51,10 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorMessage, new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
 
+    // Error: 404
+
     @ExceptionHandler(value = {NotFound.class})
-    public ResponseEntity<Object> notFoundException(BadRequest ex, WebRequest request){
+    public ResponseEntity<Object> notFoundException(NotFound ex, WebRequest request){
 
         LocalDateTime localDateTimeBrasil = LocalDateTime.now(zoneBrasil);
         String errorMessageDescription = ex.getLocalizedMessage();
