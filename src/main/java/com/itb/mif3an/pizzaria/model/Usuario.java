@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,6 +40,16 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Telefone> telefones = new ArrayList<Telefone>();
+
+    //  EAGER : Referente ao tipo de consulta : "Imediato"
+    //  LAZY  : Referente ao tipo de consulta : "Preguiçoso"
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "usuarios_papeis",
+               joinColumns = @JoinColumn(name = "usuario_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "papel_id", referencedColumnName = "id")
+              )
+    private Collection<Papel> papeis;
+
 
     // Atributos de apoio
 
@@ -143,6 +154,14 @@ public class Usuario {
 
     public void setTelefones(List<Telefone> telefones) {
         this.telefones = telefones;
+    }
+
+    public Collection<Papel> getPapeis() {
+        return papeis;
+    }
+
+    public void setPapeis(Collection<Papel> papeis) {
+        this.papeis = papeis;
     }
 
     public String getMensagemErro() {
