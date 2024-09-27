@@ -2,6 +2,9 @@ package com.itb.mif3an.pizzaria.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,7 +14,16 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipoUsuario", discriminatorType = DiscriminatorType.STRING)
+@EnableJpaAuditing
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "tipoUsuario")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = Funcionario.class, name = "Funcionario"),
+        @JsonSubTypes.Type(value = Cliente.class, name = "Cliente"),
+        @JsonSubTypes.Type(value = Admin.class, name = "Admin")
+})
+public abstract class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +36,7 @@ public class Usuario {
     private String username;
     @Column(nullable = false, length = 250)
     private String password;
-    @Column(nullable = false, length = 45)
+    @Column(nullable = false, length = 45, insertable = false, updatable = false)
     private String tipoUsuario;
     @Column(nullable = true, length = 100)
     private String logradouro;
