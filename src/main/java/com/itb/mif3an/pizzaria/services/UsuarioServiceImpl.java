@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
@@ -96,6 +97,16 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         admin.setPapeis(new ArrayList<>());
         addPapelToUsuario(admin, "ROLE_ADMIN");
         return usuarioRepository.save(admin);
+    }
+
+    @Override
+    public List<Usuario> findAll() {
+        return usuarioRepository.findAll();
+    }
+
+    @Override
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id).get();
     }
 
     @Override

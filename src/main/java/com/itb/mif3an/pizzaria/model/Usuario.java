@@ -194,7 +194,14 @@ public abstract class Usuario {
     }
 
     public boolean validarUsuario() {
-
+        if(username == null || username.isEmpty()) {
+            mensagemErro += "O email é obrigatório:";
+            isValid = false;
+        }
+        if(password == null || password.isEmpty()) {
+            mensagemErro += "A senha é obrigatória:";
+            isValid = false;
+        }
         return isValid;
     }
 }

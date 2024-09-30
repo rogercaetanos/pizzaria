@@ -25,6 +25,16 @@ public class Papel {
     @JsonIgnore
     private boolean isValid = true;
 
+    public Papel() {
+
+    }
+
+    public Papel(Long id, String nomePapel) {
+        this.id = id;
+        this.nomePapel = nomePapel;
+        this.codStatusPapel = true;
+    }
+
 
     public Long getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.itb.mif3an.pizzaria.security;
 
-
+import com.itb.mif3an.pizzaria.filters.CustomAuthenticationFilter;
+import com.itb.mif3an.pizzaria.filters.CustomAuthorizationFilter;
 import com.itb.mif3an.pizzaria.services.UsuarioService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +41,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean(), usuarioService);
+        customAuthenticationFilter.setFilterProcessesUrl("/api/v1/login");
+        http.cors();
+        http.csrf().disable();
+        http.sessionManagement().sessionCreationPolicy(STATELESS).
+                and().authorizeRequests().antMatchers("/api/v1/login/**","/api/v1/usuario/**", "/api/v1/logout/**").permitAll();
+        http.authorizeRequests().
+                antMatchers("/api/v1/aluno/**").hasAnyAuthority("ROLE_CLIENTE").
+                antMatchers("/api/v1/funcionario/**").hasAnyAuthority("ROLE_FUNCIONARIO").
+                antMatchers("/api/v1/admin/**").hasAnyAuthority("ROLE_ADMIN").
+                anyRequest().authenticated();
+        http.addFilter(customAuthenticationFilter);
+        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
